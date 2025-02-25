@@ -1,26 +1,41 @@
 DataFields = {
+# Misc
     "id":{0:"eid"},
-    "Age":{0:"34-0.0"},
+    "Birth Year":{0:"34-0.0"},
     "Sex":{0:"31-0.0"},
-    "Primary Hypertension":{0:"131287-0.0"},
-    "Secondary Hypertension":{0:"131286-0.0"},
+    "Ethnicity":{0:"21000-0.0", 1:"21000-1.0", 2:"21000-2.0", 3:"21000-3.0"},
+    "Education":{0:"6138-0.0", 1:"6138-1.0", 2:"6138-2.0", 3:"6138-3.0"},
+    "Primary Hypertension":{0:"131286-0.0"},
+    "Secondary Hypertension":{0:"131294-0.0"},
     "Vascular Dementia Date First Reported":{0:"130838-0.0"},
     "Date of vascular dementia report" : {0:"42022-0.0"},
     "BMI Impedance":{0:"21001-0.0", 1:"21001-1.0", 2:"21001-2.0", 3:"21001-3.0"},
     "Smoking Status":{0:"20116-0.0"},
     "Ever Smoked":{0:"20160-0.0"},
-    "Alcohol Frequency": {0:"20414-0.0"},
+    "Alcohol Intake Frequency": {0:"1558-0.0",1:"1558-1.0",2:"1558-2.0",3:"1558-3.0"},
     "Report of stroke": {0:"42007-0.0"},
     "Diabetes Diagnosed By Doctor": {0:"2443-0.0",1:"2443-1.0",2:"2443-2.0",3:"2443-3.0"},
     "Bipolar or Major Depression" : {0:"20126-0.0"},
     "Ever had prolonged feelings of sadness or depression" : {0:"20446-0.0"},
     "Recent trouble concentrating on things" : {0:"20508-0.0"},
-    "Stress" : {0:"130910-0.0"},
-    "Heart Attack": {0:"6150-0.0", 1:"6150-1.0", 2:"6150-2.0"},
-    "Angina": {0:"6150-0.1", 1:"6150-1.1", 2:"6150-2.1"},
-    "Stroke": {0:"6150-0.2", 1:"6150-1.2", 2:"6150-2.2"},
-    "High Blood Pressure": {0:"6150-0.3", 1:"6150-1.3", 2:"6150-2.3"},
+    "Stress Reported" : {0:"130910-0.0"},
+    "Report of Vascular problems": {0:"6150-0.0", 1:"6150-1.0", 2:"6150-2.0"},
 
+# Autoimmune diseases reported
+    "Seropositive Rheumatoid Arthritis": {0:"131848-0.0"},
+    "Other Rheumatoid Arthritis": {0:"131850-0.0"},
+    "Juvenile Arthritis": {0:"131854-0.0"},
+    "Other Arthritis": {0:"131864-0.0"},
+    "Psoriatic and enteropathic arthropathies" : {0:"131852-0.0"},
+    "Multiple Sclerosis" : {0: "131042-0.0"},
+    "Crohn's disease": {0:"131626-0.0"},
+    "Ulcerative Colitis": {0:"131628-0.0"},
+    "Thyrotoxicosis (Grave's disease)": {0:"130700-0.0"},
+    "Sjogren Disease (M35)": {0:"131900-0.0"},
+    "Myasthenia gravis": {0:"131092-0.0"},
+    "Diagnosed with Coeliac disease": {0: "21068-0.0"},
+    "B12 deficiency anaemia" : {0: "130624-0.0"},
+    
 # Blood Chem
     "Alanine aminotransferase": {0: "30620-0.0", 1: "30620-1.0"},
     "Albumin": {0: "30600-0.0", 1: "30600-1.0"},
@@ -89,25 +104,7 @@ DataFields = {
 # Blood Presure
     "Blood Pressure Diastolic": {0: "4079-0.0", 1:"4079-1.0", 2:"4079-2.0", 3:"4079-3.0"},
     "Blood Pressure Systolic": {0: "4080-0.0", 1:"4080-1.0",2: "4080-2.0", 3:"4080-3.0"},
-    "Pulse Rate at Blood Pressure": {0:"102-0.0", 1:"102-1.0", 2:"102-2.0", 3:"102-3.0"},
-    
+    "Pulse Rate at Blood Pressure": {0:"102-0.0", 1:"102-1.0", 2:"102-2.0", 3:"102-3.0"}
 }
 
-mental_health = [
-    "20544-0.1",
-    "20544-0.2",
-    "20544-0.3",
-    "20544-0.4",
-    "20544-0.5",
-    "20544-0.6",
-    "20544-0.7",
-    "20544-0.8",
-    "20544-0.9",
-    "20544-0.10",
-    "20544-0.11",
-    "20544-0.12",
-    "20544-0.13",
-    "20544-0.14",
-    "20544-0.15",
-    "20544-0.16"
-]
+
