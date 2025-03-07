@@ -15,9 +15,6 @@ DataFields = {
     "Alcohol Intake Frequency": {0:"1558-0.0",1:"1558-1.0",2:"1558-2.0",3:"1558-3.0"},
     "Report of stroke": {0:"42007-0.0"},
     "Diabetes Diagnosed By Doctor": {0:"2443-0.0",1:"2443-1.0",2:"2443-2.0",3:"2443-3.0"},
-    "Bipolar or Major Depression" : {0:"20126-0.0"},
-    "Ever had prolonged feelings of sadness or depression" : {0:"20446-0.0"},
-    "Recent trouble concentrating on things" : {0:"20508-0.0"},
     "Stress Reported" : {0:"130910-0.0"},
     "Report of Vascular problems": {0:"6150-0.0", 1:"6150-1.0", 2:"6150-2.0"},
 
@@ -56,9 +53,7 @@ DataFields = {
     "IGF-1": {0: "30770-0.0", 1: "30770-1.0"},
     "LDL direct": {0: "30780-0.0", 1: "30780-1.0"},
     "Lipoprotein A": {0: "30790-0.0", 1: "30790-1.0"},
-    "Oestradiol": {0: "30800-0.0", 1: "30800-1.0"},
     "Phosphate": {0: "30810-0.0", 1: "30810-1.0"},
-    "Rheumatoid factor": {0: "30820-0.0", 1: "30820-1.0"},
     "SHBG": {0: "30830-0.0", 1: "30830-1.0"},
     "Testosterone": {0: "30850-0.0", 1: "30850-1.0"},
     "Total bilirubin": {0: "30840-0.0", 1: "30840-1.0"},
@@ -107,4 +102,22 @@ DataFields = {
     "Pulse Rate at Blood Pressure": {0:"102-0.0", 1:"102-1.0", 2:"102-2.0", 3:"102-3.0"}
 }
 
-
+DateReportedFields = [
+    "Primary Hypertension",
+    "Secondary Hypertension",
+    "Report of stroke",
+    "Stress Reported",
+    "Seropositive Rheumatoid Arthritis",
+    "Other Rheumatoid Arthritis",
+    "Juvenile Arthritis",
+    "Other Arthritis",
+    "Psoriatic and enteropathic arthropathies",
+    "Multiple Sclerosis",
+    "Crohn's disease",
+    "Ulcerative Colitis",
+    "Thyrotoxicosis (Grave's disease)",
+    "Sjogren Disease (M35)",
+    "Myasthenia gravis",
+    "Diagnosed with Coeliac disease",
+    "B12 deficiency anaemia"
+]
