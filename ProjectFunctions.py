@@ -40,3 +40,26 @@ def count_na_in_dataframe(df):
     for column, na_count in na_counts.items():
         print(f"{column}: {na_count} missing values")
 
+# Prints number of rows with NA or negative values.
+def count_na_and_negative(df):
+    na_counts = df.isna().sum()
+    negative_counts = (df < 0).sum(numeric_only=True)
+    total_counts = (na_counts + negative_counts).sort_values(ascending=False)
+    
+    for column, count in total_counts.items():
+        print(f"{column}: {count} missing or negative values")
+
+# map education into 4 groups as specified in the map
+def map_education_levels(df):
+    mapping = {
+        1: 3,  # College or University degree -> Level 3
+        2: 2,  # A levels/AS levels or equivalent -> Level 2
+        3: 1,  # O levels/GCSEs or equivalent -> Level 1
+        4: 1,  # CSEs or equivalent -> Level 1
+        5: 2,  # NVQ or HND or HNC or equivalent -> Level 2
+        6: 2,  # Other professional qualifications -> Level 2
+        -7: 0, # No education
+        -3: pd.NA  # Convert to NA
+    }
+    df["Education"] = df["Education"].map(mapping)
+    return df
