@@ -63,3 +63,33 @@ def map_education_levels(df):
     }
     df["Education"] = df["Education"].map(mapping)
     return df
+
+# returns the number of rows in the dataframe with more than `x` NA features
+def count_rows_with_na_greater_than(df, x):
+    na_counts = df.isna().sum(axis=1)
+    return (na_counts > x).sum()
+
+# drops all rows with more than `x` NA features
+def drop_rows_with_na_greater_than(df, x):
+    na_counts = df.isna().sum(axis=1)
+    return df[na_counts <= x]
+
+# maps vascular problems by severity from 0 to 4
+def map_vascular_levels(df):
+    col_name = "Report of Vascular problems"
+    # Replace -7 with 0 and -3 with NA
+    df[col_name] = df[col_name].replace({-7: 0, -3: pd.NA})
+    
+    # Map severity levels
+    severity_mapping = {
+        1: 3,  # Heart attack
+        2: 2,  # Angina
+        3: 3,  # Stroke
+        4: 1   # High blood pressure
+    }
+    
+    df[col_name] = df[col_name].map(lambda x: severity_mapping.get(x, x))
+    
+    return df
+
+
