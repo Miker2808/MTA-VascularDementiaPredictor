@@ -74,17 +74,17 @@ def drop_rows_with_na_greater_than(df, x):
     na_counts = df.isna().sum(axis=1)
     return df[na_counts <= x]
 
-# maps vascular problems by severity from 0 to 4
+# maps vascular problems by severity (for now, binary)
 def map_vascular_levels(df):
-    col_name = "Report of Vascular problems"
+    col_name = "Report of vascular problems"
     # Replace -7 with 0 and -3 with NA
     df[col_name] = df[col_name].replace({-7: 0, -3: pd.NA})
     
     # Map severity levels
     severity_mapping = {
-        1: 3,  # Heart attack
-        2: 2,  # Angina
-        3: 3,  # Stroke
+        1: 1,  # Heart attack
+        2: 1,  # Angina
+        3: 1,  # Stroke
         4: 1   # High blood pressure
     }
     
@@ -92,4 +92,17 @@ def map_vascular_levels(df):
     
     return df
 
+# Instead of mapping vascular problems from 0 to 4, convert to categorical features
+def one_hot_encode_vascular_problems(df):
+    column_name = "Report of vascular problems"
 
+    df[['Heart Attack', 'Angina', 'Stroke', 'High Blood Pressure']] = 0
+
+    df.loc[df[column_name] == 1, 'Heart Attack'] = 1
+    df.loc[df[column_name] == 2, 'Angina'] = 1
+    df.loc[df[column_name] == 3, 'Stroke'] = 1
+    df.loc[df[column_name] == 4, 'High Blood Pressure'] = 1
+
+    df = df.drop(column_name, axis=1)
+
+    return df

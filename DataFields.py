@@ -16,7 +16,7 @@ DataFields = {
     "Report of stroke": {0:"42007-0.0"},
     "Diabetes Diagnosed By Doctor": {0:"2443-0.0",1:"2443-1.0",2:"2443-2.0",3:"2443-3.0"},
     "Stress Reported" : {0:"130910-0.0"},
-    "Report of Vascular problems": {0:"6150-0.0", 1:"6150-1.0", 2:"6150-2.0"},
+    "Report of vascular problems": {0:"6150-0.0", 1:"6150-1.0", 2:"6150-2.0"},
 
 # Autoimmune diseases reported
     "Seropositive Rheumatoid Arthritis": {0:"131848-0.0"},
