@@ -3,19 +3,17 @@ DataFields = {
     "id":{0:"eid"},
     "Birth Year":{0:"34-0.0"},
     "Sex":{0:"31-0.0"},
-    #"Ethnicity":{0:"21000-0.0", 1:"21000-1.0", 2:"21000-2.0", 3:"21000-3.0"},
     "Education":{0:"6138-0.0", 1:"6138-1.0", 2:"6138-2.0", 3:"6138-3.0"},
     "Primary Hypertension":{0:"131286-0.0"},
     "Secondary Hypertension":{0:"131294-0.0"},
     "Vascular Dementia Date First Reported":{0:"130838-0.0"},
-    "Date of vascular dementia report" : {0:"42022-0.0"},
+    #"Date of vascular dementia report" : {0:"42022-0.0"},
     "BMI Impedance":{0:"21001-0.0", 1:"21001-1.0", 2:"21001-2.0", 3:"21001-3.0"},
     "Smoking Status":{0:"20116-0.0"},
     "Ever Smoked":{0:"20160-0.0"},
     "Alcohol Intake Frequency": {0:"1558-0.0",1:"1558-1.0",2:"1558-2.0",3:"1558-3.0"},
     "Report of stroke": {0:"42007-0.0"},
     "Diabetes Diagnosed By Doctor": {0:"2443-0.0",1:"2443-1.0",2:"2443-2.0",3:"2443-3.0"},
-    "Stress Reported" : {0:"130910-0.0"},
     "Report of vascular problems": {0:"6150-0.0", 1:"6150-1.0", 2:"6150-2.0"},
 
 # Autoimmune diseases reported
@@ -103,10 +101,10 @@ DataFields = {
 }
 
 DateReportedFields = [
+    "Vascular Dementia Report Date",
     "Primary Hypertension",
     "Secondary Hypertension",
     "Report of stroke",
-    "Stress Reported",
     "Seropositive Rheumatoid Arthritis",
     "Other Rheumatoid Arthritis",
     "Juvenile Arthritis",

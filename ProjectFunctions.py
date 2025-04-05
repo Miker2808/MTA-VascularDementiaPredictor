@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from typing import List, Optional, Union
 
 # Read the chunk and get columns from the datafields dictionary
 # if Oldest=True, take the oldest instance, otherwise newest
-def get_columns_from_chunk(chunk, datafields, oldest=False):
+def get_columns_from_chunk(chunk: pd.DataFrame, datafields: List[str], oldest: bool = False) -> pd.DataFrame:
     selected_columns = {}
     for field_name, instances in datafields.items():
         instance_key = min(instances) if oldest else max(instances)
@@ -19,7 +20,7 @@ def get_columns_from_chunk(chunk, datafields, oldest=False):
 
 # from the given "fields" list, convert all columns where date is in range, to 0 or 1 instead of a date.
 # Having date as not NA implies a person was diagnosed with said condition
-def convert_date_to_binary(df, fields):
+def convert_date_to_binary(df: pd.DataFrame, fields: List[str]) -> pd.DataFrame:
     start_date = pd.Timestamp("1950-01-01")
     end_date = pd.Timestamp("2030-01-01")
     
@@ -34,14 +35,14 @@ def convert_date_to_binary(df, fields):
     return df
 
 # Prints the number of rows with NA values for each column.
-def count_na_in_dataframe(df):
+def count_na_in_dataframe(df: pd.DataFrame) -> None:
     na_counts = df.isna().sum().sort_values(ascending=False)
     
     for column, na_count in na_counts.items():
         print(f"{column}: {na_count} missing values")
 
 # Prints number of rows with NA or negative values.
-def count_na_and_negative(df):
+def count_na_and_negative(df: pd.DataFrame) -> None:
     na_counts = df.isna().sum()
     negative_counts = (df < 0).sum(numeric_only=True)
     total_counts = (na_counts + negative_counts).sort_values(ascending=False)
@@ -50,7 +51,7 @@ def count_na_and_negative(df):
         print(f"{column}: {count} missing or negative values")
 
 # map education into 4 groups as specified in the map
-def map_education_levels(df):
+def map_education_levels(df: pd.DataFrame) -> pd.DataFrame:
     mapping = {
         1: 3,  # College or University degree -> Level 3
         2: 2,  # A levels/AS levels or equivalent -> Level 2
@@ -65,17 +66,17 @@ def map_education_levels(df):
     return df
 
 # returns the number of rows in the dataframe with more than `x` NA features
-def count_rows_with_na_greater_than(df, x):
+def count_rows_with_na_greater_than(df: pd.DataFrame, x: int) -> int:
     na_counts = df.isna().sum(axis=1)
     return (na_counts > x).sum()
 
 # drops all rows with more than `x` NA features
-def drop_rows_with_na_greater_than(df, x):
+def drop_rows_with_na_greater_than(df: pd.DataFrame, x: int) -> pd.DataFrame:
     na_counts = df.isna().sum(axis=1)
     return df[na_counts <= x]
 
-# maps vascular problems by severity (for now, binary)
-def map_vascular_levels(df):
+# maps vascular problems by severity (unused)
+def map_vascular_levels(df: pd.DataFrame) -> pd.DataFrame:
     col_name = "Report of vascular problems"
     # Replace -7 with 0 and -3 with NA
     df[col_name] = df[col_name].replace({-7: 0, -3: pd.NA})
@@ -93,7 +94,7 @@ def map_vascular_levels(df):
     return df
 
 # Instead of mapping vascular problems from 0 to 4, convert to categorical features
-def one_hot_encode_vascular_problems(df):
+def one_hot_encode_vascular_problems(df: pd.DataFrame) -> pd.DataFrame:
     column_name = "Report of vascular problems"
 
     df[['Heart Attack', 'Angina', 'Stroke', 'High Blood Pressure']] = 0
@@ -106,3 +107,5 @@ def one_hot_encode_vascular_problems(df):
     df = df.drop(column_name, axis=1)
 
     return df
+
+
