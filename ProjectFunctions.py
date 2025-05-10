@@ -19,16 +19,22 @@ def get_columns_from_chunk(chunk: pd.DataFrame, datafields: List[str], oldest: b
 
 # from the given "fields" list, convert all columns where date is in range, to 0 or 1 instead of a date.
 # Having date as not NA implies a person was diagnosed with said condition
-def convert_date_to_binary(df: pd.DataFrame, fields: List[str]) -> pd.DataFrame:
+def convert_date_to_binary(df: pd.DataFrame, fields: Optional[List[str]] = None) -> pd.DataFrame:
+
+    df_copy = df.copy()
+    
     start_date = pd.Timestamp("1950-01-01")
     end_date = pd.Timestamp("2030-01-01")
 
+    if fields is None:
+        fields = df.columns
+    
     for col in fields:
         if col in df.columns:
-            df[col] = pd.to_datetime(df[col], errors='coerce')
-            mask = (df[col] >= start_date) & (df[col] <= end_date)
-            df[col] = np.where(mask, 1, 0)
-    return df
+            df_copy[col] = pd.to_datetime(df_copy[col], errors='coerce')
+            mask = (df_copy[col] >= start_date) & (df_copy[col] <= end_date)
+            df_copy[col] = np.where(mask, 1, 0)
+    return df_copy
 
 
 # Prints the number of rows with NA values for each column.
@@ -132,3 +138,18 @@ def one_hot_encode_vascular_problems(df: pd.DataFrame) -> pd.DataFrame:
     df = df.drop(column_name, axis=1)
 
     return df
+
+# Print for each feature, all other features whose correlation exceed the threshold
+def print_highly_correlated_features(df: pd.DataFrame, features: Optional[List[str]] = None, threshold: int=0.8) -> None:
+    corr_matrix = df.corr(method="pearson")
+    correlated_features = {}
+
+    features = corr_matrix.columns if features is None else features
+    
+    for col in features:
+        high_corr = corr_matrix[col][(corr_matrix[col] >= threshold) & (corr_matrix[col] < 1)].index.tolist()
+        if high_corr:
+            correlated_features[col] = high_corr
+    print("Highly correlated features:")
+    for feature, related_features in correlated_features.items():
+        print(f"{feature}: {', '.join(related_features)}")
