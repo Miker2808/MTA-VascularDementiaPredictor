@@ -118,7 +118,8 @@ DateReportedFields = [
     "Sjogren Disease (M35)",
     "Myasthenia gravis",
     "Diagnosed with Coeliac disease",
-    "B12 deficiency anaemia"
+    "B12 deficiency anaemia",
+    "Stroke Report Date"
 ]
 
 

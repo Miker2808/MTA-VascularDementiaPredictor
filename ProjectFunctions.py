@@ -19,9 +19,10 @@ def get_columns_from_chunk(chunk: pd.DataFrame, datafields: List[str], oldest: b
 
 # from the given "fields" list, convert all columns where date is in range, to 0 or 1 instead of a date.
 # Having date as not NA implies a person was diagnosed with said condition
-def convert_date_to_binary(df: pd.DataFrame, fields: Optional[List[str]] = None) -> pd.DataFrame:
+def convert_date_to_binary(df: pd.DataFrame, fields: Optional[List[str]] = None, inplace: bool = False) -> pd.DataFrame:
 
-    df_copy = df.copy()
+    if not inplace:
+        df = df.copy()
     
     start_date = pd.Timestamp("1950-01-01")
     end_date = pd.Timestamp("2030-01-01")
@@ -31,10 +32,10 @@ def convert_date_to_binary(df: pd.DataFrame, fields: Optional[List[str]] = None)
     
     for col in fields:
         if col in df.columns:
-            df_copy[col] = pd.to_datetime(df_copy[col], errors='coerce')
-            mask = (df_copy[col] >= start_date) & (df_copy[col] <= end_date)
-            df_copy[col] = np.where(mask, 1, 0)
-    return df_copy
+            df[col] = pd.to_datetime(df[col], errors='coerce')
+            mask = (df[col] >= start_date) & (df[col] <= end_date)
+            df[col] = np.where(mask, 1, 0)
+    return df
 
 
 # Prints the number of rows with NA values for each column.
@@ -50,7 +51,10 @@ def count_na_in_dataframe(df: pd.DataFrame, exclude: List[str] = []) -> None:
 
 
 # Prints number of rows with NA or negative values.
-def count_na_and_negative(df: pd.DataFrame) -> None:
+def count_na_and_negative(df: pd.DataFrame, inplace: bool = False) -> None:
+    if not inplace:
+        df = df.copy()
+    
     na_counts = df.isna().sum()
     negative_counts = (df < 0).sum(numeric_only=True)
     total_counts = (na_counts + negative_counts).sort_values(ascending=False)
@@ -59,7 +63,10 @@ def count_na_and_negative(df: pd.DataFrame) -> None:
 
 
 # map education into 4 groups as specified in the map
-def map_education_levels(df: pd.DataFrame) -> pd.DataFrame:
+def map_education_levels(df: pd.DataFrame, inplace: bool = False) -> pd.DataFrame:
+    if not inplace:
+        df = df.copy()
+    
     mapping = {
         1: 3,  # College or University degree -> Level 3
         2: 2,  # A levels/AS levels or equivalent -> Level 2
@@ -68,7 +75,7 @@ def map_education_levels(df: pd.DataFrame) -> pd.DataFrame:
         5: 2,  # NVQ or HND or HNC or equivalent -> Level 2
         6: 2,  # Other professional qualifications -> Level 2
         -7: 0,  # No education
-        -3: pd.NA  # Convert to NA
+        -3: np.nan  # Convert to NA
     }
     df["Education"] = df["Education"].map(mapping)
     return df
@@ -94,8 +101,12 @@ def drop_if_na_greater_than(df: pd.DataFrame, x: int, include: List[str]) -> pd.
 
 def drop_rows_with_na_greater_than(df: pd.DataFrame,x: int,
                                     include: Optional[List[str]] = None,
-                                    exclude: Optional[List[str]] = None
+                                    exclude: Optional[List[str]] = None,
+                                    inplace = False
                                     ) -> pd.DataFrame:
+    if not inplace:
+        df = df.copy()
+    
     cols = df.columns if include is None else include
 
     if exclude is not None:
@@ -109,10 +120,13 @@ def drop_rows_with_na_greater_than(df: pd.DataFrame,x: int,
     return df[na_counts <= x]
 
 # maps vascular problems by severity (unused)
-def map_vascular_levels(df: pd.DataFrame) -> pd.DataFrame:
+def map_vascular_levels(df: pd.DataFrame, inplace: bool = False) -> pd.DataFrame:
+    if not inplace:
+        df = df.copy()
+    
     col_name = "Report of vascular problems"
     # Replace -7 with 0 and -3 with NA
-    df[col_name] = df[col_name].replace({-7: 0, -3: pd.NA})
+    df[col_name] = df[col_name].replace({-7: 0, -3: np.nan})
     # Map severity levels
     severity_mapping = {
         1: 1,  # Heart attack
@@ -125,7 +139,10 @@ def map_vascular_levels(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # Instead of mapping vascular problems from 0 to 4, convert to categorical features
-def one_hot_encode_vascular_problems(df: pd.DataFrame) -> pd.DataFrame:
+def one_hot_encode_vascular_problems(df: pd.DataFrame, inplace: bool = False) -> pd.DataFrame:
+    if not inplace:
+        df = df.copy()
+    
     column_name = "Report of vascular problems"
 
     df[['Heart Attack', 'Angina', 'Stroke', 'High Blood Pressure']] = 0
@@ -153,3 +170,40 @@ def print_highly_correlated_features(df: pd.DataFrame, features: Optional[List[s
     print("Highly correlated features:")
     for feature, related_features in correlated_features.items():
         print(f"{feature}: {', '.join(related_features)}")
+
+
+def drop_correlated_features(df: pd.DataFrame, threshold:int = 0.8, keep_list: Optional[List[str]] = None, inplace: bool = False) -> pd.DataFrame:
+    
+    if not inplace:
+        df = df.copy()
+    
+    if keep_list is None:
+        keep_list = []
+    
+    corr_matrix = df.corr(method="pearson").abs()
+    to_drop = set()
+    
+    for i in range(len(corr_matrix.columns)):
+        for j in range(i + 1, len(corr_matrix.columns)):  # Avoid duplicate checks
+            feature1 = corr_matrix.columns[i]
+            feature2 = corr_matrix.columns[j]
+            
+            if corr_matrix.iloc[i, j] > threshold:
+                if feature1 in keep_list and feature2 in keep_list:
+                    raise ValueError(f"Cannot drop either '{feature1}' or '{feature2}' as both are in keep_list.")
+                
+                if feature1 in keep_list:
+                    to_drop.add(feature2)  # Drop feature2 if feature1 is in keep_list
+                elif feature2 in keep_list:
+                    to_drop.add(feature1)
+                else:
+                    to_drop.add(feature2)
+    
+    # Drop identified features
+    df = df.drop(columns=to_drop, errors="ignore")
+    
+    print("Features dropped:")
+    for x in to_drop:
+        print(x)
+            
+    return df
